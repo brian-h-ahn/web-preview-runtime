@@ -1,0 +1,27 @@
+name: Build and preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'test/**'
+      - 'scripts/**'
+      - '.github/workflows/build-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test projection
+        run: node --test test/projection.test.mjs
+      - name: Build preview
+        run: node scripts/build.mjs
+      - name: Verify output
+        run: test -s dist/index.html && test -s dist/receipt.json
