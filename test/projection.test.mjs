@@ -21,7 +21,7 @@ test('accepts a bounded projection', () => {
 });
 
 test('rejects a modified payload', () => {
-  assert.throws(() => validateProjection(fixture({ payload: 'changed' })), /PAYLOAD_DIGEST_MISMATCH/);
+  assert.throws(() => validateProjection(fixture({ payload: 'changed', payloadDigest: sha256('preview-ok') })), /PAYLOAD_DIGEST_MISMATCH/);
 });
 
 test('rejects an unknown profile', () => {
